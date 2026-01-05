@@ -1,0 +1,35 @@
+meta {
+  name: Test api
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8001/api/v1/posts/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "post_type": "event",
+    "title": "NUSETAJKUAT Fellowship sunday",
+    "description": "Nuseta Jkuat is a evangelism team for Nakuru county. Welcome to fellowhip.",
+    "location": "Red Hats 002",
+    "time": "2026-02-09",
+    "attendees": 0,
+    "author_id": "649ba0b2-6f08-4744-8e91-1e2c0a5a2dac",
+    "images": [],
+    "price": 0,
+    "parent_post_id": null,
+    "contact": null,
+    "pin_location": "Jomo Kenyatta University Map",
+    "community_instance_id": "00000000-0000-0000-0000-000000000000"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

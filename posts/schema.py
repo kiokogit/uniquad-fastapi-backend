@@ -30,6 +30,7 @@ class CreatePostSchema(BaseModel):
 class Profile(BaseModel):
     full_name: str
     avatar_url: Optional[str]
+    user_id: str
     
 
 class PostSchema(BaseModel):

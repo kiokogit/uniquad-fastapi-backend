@@ -7,7 +7,7 @@ from fastapi_pagination import add_pagination
 app = FastAPI(
     title="UniQuad",
     description="UniQuad is a platform for closed ecosystem engagements like universities and their environments.",
-    version="0.0.1",
+    version="0.0.1"
 ) 
 
 app.add_middleware(

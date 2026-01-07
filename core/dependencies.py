@@ -9,6 +9,14 @@ from acl.models import UserProfile as UserModel
 
 
 class TokenBearer(HTTPBearer):
+    """
+    A custom FastAPI HTTPBearer dependency that validates and decodes JWT
+    access tokens, retrieves or creates a user profile from the database,
+    and attaches the user profile to `request.state.user`.
+
+    On successful authentication, the user object is returned and can be used as a dependency.
+    If authentication or user retrieval fails, a 401 HTTPException is raised.
+    """
     def __init__(self):
         super().__init__(auto_error=True)
 

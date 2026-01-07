@@ -1,17 +1,18 @@
 from uuid import UUID
-from database.connection import SessionLocal
+
+from sqlalchemy.orm import Session
+from database.connection import get_db
 from fastapi.security import HTTPBearer
 from acl.utils import decode_token
-from fastapi import HTTPException, Request
+from fastapi import Depends, HTTPException, Request
 from acl.models import UserProfile as UserModel
 
-db = SessionLocal()
 
 class TokenBearer(HTTPBearer):
     def __init__(self):
         super().__init__(auto_error=True)
 
-    async def __call__(self, request: Request):
+    async def __call__(self, request: Request, db: Session = Depends(get_db)):
         creds = await super().__call__(request)
         if creds is None:
             raise HTTPException(status_code=401, detail="Invalid authorization code.")
@@ -41,5 +42,5 @@ class TokenBearer(HTTPBearer):
         request.state.user = user
         return user
         
-
+token_bearer = TokenBearer()
 

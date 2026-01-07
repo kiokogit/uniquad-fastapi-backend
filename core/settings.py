@@ -1,15 +1,35 @@
 
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from typing import Optional, Union
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = "HS256"
+
+class Settings(BaseSettings):
+
+    APP_TITLE: str = Field(default='UniQuad')
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+    SECRET_KEY: str = Field(default=...)
+    ALGORITHM: str = Field(default='HS256')
 
-TIMEZONE = 'Africa/Nairobi'
+    DATABASE_URL: str = Field(default="sqlite:///./test.db")
+
+    TIMEZONE: str = Field(default='Africa/Nairobi')
+
+    ELASTICSEARCH_URL: Optional[str] = Field(default=None)
+    ELASTICSEARCH_API_KEY: Union[str, None] = Field(default=None)
+    BROKER_URL: Optional[str]  = Field(default=None)
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding='utf-8',
+        case_sensitive=True,
+        extra="ignore"
+    )
+
+
+
+settings = Settings()
 
 

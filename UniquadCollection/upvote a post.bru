@@ -1,0 +1,20 @@
+meta {
+  name: upvote a post
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8001/api/v1/posts/actions/{{post_id}}/attend
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  post_id: b5f929ab-fcf3-464f-8af4-25a081e86dc5
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

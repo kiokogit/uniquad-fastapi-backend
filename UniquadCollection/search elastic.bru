@@ -1,0 +1,21 @@
+meta {
+  name: search elastic
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8001/api/v1/posts/search?query=5&category=events
+  body: none
+  auth: inherit
+}
+
+params:query {
+  query: 5
+  category: events
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

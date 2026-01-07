@@ -3,38 +3,43 @@
 from datetime import datetime
 from typing import Optional
 from uuid import UUID
-from pydantic import BaseModel
-from posts.models import PostType
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 class CreatePostSchema(BaseModel):
     title: str | None # allow for comments
     description: str
-    location: str | None
-    time: datetime | None
-    images: list[str, None]
-    attendees: int | None
-    author_id: UUID
-    community_instance_id: UUID | None
+    location: str | None = Field(default=None)
+    time: Optional[datetime] = None
+    images: list[str] = Field(default=[])
+    author_id: UUID | None = Field(default=None)
+    community_instance_id: UUID | None = Field(default=None)
     post_type: str
-    price: int | None
+    price: int = Field(default=120)
     pin_location: str | None
-    contact: str | None
-    parent_post_id: UUID | None
+    contact: str | None = Field(default=None)
+    parent_post_id: UUID | None = Field(default=None)
+
+    @model_validator(mode='after') # this mode is for parsed data
+    def validate_contact(self):
+        if self.post_type == 'ad' and not self.contact:
+            raise ValueError('Contact is required for an ad')
+        return self
+
 
 
 class Profile(BaseModel):
     full_name: str
-    avatar: str | None
+    avatar_url: Optional[str]
     
 
 class PostSchema(BaseModel):
     id: UUID
-    title: str
+    title: str | None
     description: str
-    location: str
-    time: datetime
+    location: str | None
+    time: datetime | None
     images: list[str]
-    attendees: int
+    attendees: int | None
     created_at: datetime
     updated_at: datetime
     author_id: UUID | str
@@ -45,20 +50,14 @@ class PostSchema(BaseModel):
     pin_location: str | None
     contact: str | None
     parent_post_id: UUID | None
-    # created_by: Profile
+    created_by: Profile
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(extra='ignore')
     
-    
-    # 
-    # community_instance: CommunitySchema
 
 class DetailedPostSchema(PostSchema):
     comments: list[PostSchema]
 
-    class Config:
-        from_attributes = True
 
 
 

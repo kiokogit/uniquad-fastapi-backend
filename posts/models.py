@@ -7,6 +7,8 @@ import uuid
 from datetime import timezone, datetime
 from typing import Optional
 
+from sqlmodel import Relationship, SQLModel, Field
+
 
 
 class PostType(Enum):
@@ -37,20 +39,20 @@ class Post(Base):
     contact = Column[Optional[str]](String, nullable=True)
     parent_post_id = Column[Optional[UUID[str]]](UUID, nullable=True)
 
-    #  # 🔗 Relationships
-    # created_by = relationship(
-    #     "UserProfile",
-    #     primaryjoin="foreign(Post.author_id) == UserProfile.user_id",
-    #     lazy="joined",
-    #     viewonly=True,
-    # )
+     # 🔗 Relationships
+    created_by = relationship(
+        "UserProfile",
+        primaryjoin="foreign(Post.author_id) == UserProfile.user_id",
+        lazy="joined",
+        viewonly=True,
+    )
 
-    # community_instance = relationship(
-    #     "CommunityInstance",
-    #     primaryjoin="foreign(Post.community_instance_id) == CommunityInstance.id",
-    #     lazy="joined",
-    #     viewonly=True,
-    # )
+    community_instance = relationship(
+        "CommunityInstance",
+        primaryjoin="foreign(Post.community_instance_id) == CommunityInstance.id",
+        lazy="joined",
+        viewonly=True,
+    )
 
 
     __table_args__ = (
@@ -58,6 +60,3 @@ class Post(Base):
         Index("idx_posts_community_instance_id", "community_instance_id"),
         Index("idx_posts_post_type", "post_type"),
     )
-
-
-

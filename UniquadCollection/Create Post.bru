@@ -1,0 +1,30 @@
+meta {
+  name: Create Post
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8001/api/v1/posts/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "post_type": "event",
+    "title": "Lunch Fully auto {{$randomAdjective}}",
+    "description": "What do dogs ddjdjjd for lunch? We will oporovide. Entry is a dog...",
+    "location": "Pavilion Square",
+    "time": "2026-02-09",
+    "images": [],
+    "price": 1000,
+    "pin_location": "Jomo Kenyatta University Map"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

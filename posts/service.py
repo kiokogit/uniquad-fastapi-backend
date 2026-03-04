@@ -76,12 +76,11 @@ def act_on_post_post(post_id: UUID, action_type: str, db: Session = Depends(get_
     if not post:
         raise HTTPException(status_code=400, detail="Post not found")
     if action_type == 'like':
-        if post.likes in [None, 0]:
-            post.likes = 1
-        else:
-            post.likes = post.likes + 1
+        current_likes = post.likes or 0
+        setattr(post, 'likes', current_likes + 1)
     if action_type == 'attend':
-        post.attendees = 1 if post.attendees in [None, 0] else post.attendees + 1
+        current_attendees = post.attendees or 0
+        setattr(post, 'attendees', current_attendees + 1)
         
     db.commit()
     return {"message": "Updated successfully"}

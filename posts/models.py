@@ -7,8 +7,6 @@ import uuid
 from datetime import timezone, datetime
 from typing import Optional
 
-from sqlmodel import Relationship, SQLModel, Field
-
 
 
 class PostType(Enum):
